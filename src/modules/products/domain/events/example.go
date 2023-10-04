@@ -1,0 +1,1 @@
+//Aqui deberia crearse un VALUE OBJECT con informacion del evento

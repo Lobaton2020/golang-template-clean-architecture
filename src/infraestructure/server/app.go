@@ -1,4 +1,4 @@
-package common
+package infraestructure
 
 import (
 	"context"
@@ -9,28 +9,32 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"go.uber.org/fx"
 )
 
-func setRoutesByModule(app *fiber.App, sliceRoutes *types.SliceHandlers){
-	route := app.Group("/"+sliceRoutes.Prefix)
-	for _, routeItem := range sliceRoutes.Routes {
-		if routeItem.Method == http.MethodGet{
-			route.Get(routeItem.Route, routeItem.Handler)
-		}
-		if routeItem.Method == http.MethodPost{
-			route.Post(routeItem.Route, routeItem.Handler)
-		}
-		if routeItem.Method == http.MethodPut{
-			route.Put(routeItem.Route, routeItem.Handler)
-		}
-		if routeItem.Method == http.MethodDelete{
-			route.Delete(routeItem.Route, routeItem.Handler)
-		}
-		if routeItem.Method == http.MethodPatch{
-			route.Patch(routeItem.Route, routeItem.Handler)
+func setRoutesByModule(app *fiber.App, h *types.HandlersStore){
+	for _, handlerModule := range h.Handlers{
+		route := app.Group("/"+handlerModule.Prefix)
+		for _, routeItem := range handlerModule.Routes {
+			log.Infof("%v %v%v",routeItem.Method, handlerModule.Prefix, routeItem.Route )
+			if routeItem.Method == http.MethodGet{
+				route.Get(routeItem.Route, routeItem.Handler)
+			}
+			if routeItem.Method == http.MethodPost{
+				route.Post(routeItem.Route, routeItem.Handler)
+			}
+			if routeItem.Method == http.MethodPut{
+				route.Put(routeItem.Route, routeItem.Handler)
+			}
+			if routeItem.Method == http.MethodDelete{
+				route.Delete(routeItem.Route, routeItem.Handler)
+			}
+			if routeItem.Method == http.MethodPatch{
+				route.Patch(routeItem.Route, routeItem.Handler)
+			}
 		}
 	}
 }
@@ -45,7 +49,7 @@ func errorHandler(c *fiber.Ctx, err error) error{
 		"message": err.Error(),
 	})
 }
-func NewHttpFiberServer(lc fx.Lifecycle, routes *types.SliceHandlers, cfg * config.Config) *fiber.App {
+func NewHttpFiberServer(lc fx.Lifecycle, h *types.HandlersStore, cfg * config.Config) *fiber.App {
 	app := fiber.New(fiber.Config{
 		ErrorHandler: errorHandler,
 	})
@@ -57,7 +61,7 @@ func NewHttpFiberServer(lc fx.Lifecycle, routes *types.SliceHandlers, cfg * conf
 		return c.JSON(fiber.Map{"status": "ok"})
 	})
 
-	setRoutesByModule(app, routes)
+	setRoutesByModule(app, h)
 
 	lc.Append(fx.Hook{
 		OnStart: func(context.Context) error {

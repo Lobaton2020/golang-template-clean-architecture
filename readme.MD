@@ -1,7 +1,11 @@
+
+Este es el resultado de alrededor de 3 meses intenso de leer este libro: Apress_Pro_Go_The_Complete_Guide_to_Programming_Reliable_and_Efficient.pdf
+Constantemente y llegar construir este framework basdo en arquitecturas limpias. para aplicaciones robustas
+Stack: Golang, Fiver, Validator go
 TODO
 - Dependency injection OK
-- Load ENVS PENDING
-- Create structure using modules PENDING
+- Load ENVS OK
+- Create structure using modules OK
 - Apply the use of interfaces for methods OK
 - Libreria de validaciones de data OK
 - Configurar un ORM (Opcional)
@@ -29,6 +33,20 @@ TODO
         primary key (id)
     );
 ```
-- Crear despliegue usndo dockerFile
-- Configuracion Swagger PENDING
+- Crear despliegue usndo dockerFile Luego se mira
+- Configuracion Swagger NO
 
+TODO Futuro:
+- Mi objetivo era construir este template en arquitectura hexagonal, con una estructura de carpetar orgenada e inyeccion de dependencias y asi se hizo
+- A futuro me gustaria crear un MVC sencillo siguiendo este patron para ser mas agil
+
+TEST ENDPOINTS
+
+```
+2023/10/04 02:47:25.430072 app.go:22: [Info] POST products/
+2023/10/04 02:47:25.430072 app.go:22: [Info] GET products/
+2023/10/04 02:47:25.430622 app.go:22: [Info] POST users/
+2023/10/04 02:47:25.430676 app.go:22: [Info] GET users/
+```
+Prueba: Que bello quedó esto.
+![Alt text](image.png)

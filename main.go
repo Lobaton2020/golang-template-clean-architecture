@@ -1,15 +1,16 @@
 package main
 
 import (
-	"fmt"
-	_ "golang-template-clean-architecture/src/modules/products"
+	server "golang-template-clean-architecture/src/infraestructure/server"
+	productModule "golang-template-clean-architecture/src/modules/products"
+	userModule "golang-template-clean-architecture/src/modules/users"
 )
 
-func main() {
 
-	// fmt.Println(dto.CreateProductDto{})
-	// fx.New(NewProduct).Run()
-	// number := defaultNumber.(int)
-	fmt.Print("Hello world: ")
-	// products.Init()
+func main() {
+	app := server.ProvidersStore{}
+	app.Init()
+	app.AddModule(productModule.ModuleProviders())
+	app.AddModule(userModule.ModuleProviders())
+	app.Up()
 }

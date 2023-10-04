@@ -1,6 +1,8 @@
 package common
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/gofiber/fiber/v2"
+)
 
 type HandlerModule struct {
 	Handler func(*fiber.Ctx) error
@@ -11,4 +13,12 @@ type HandlerModule struct {
 type SliceHandlers struct {
 	Prefix string
 	Routes []HandlerModule
+}
+type GlobalHandlers []SliceHandlers
+
+type HandlersStore struct{
+	Handlers []SliceHandlers
+}
+func NewHandlersStore()*HandlersStore{
+	return &HandlersStore{}
 }

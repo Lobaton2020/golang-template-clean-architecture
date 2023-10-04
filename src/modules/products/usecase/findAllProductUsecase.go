@@ -10,7 +10,7 @@ import (
 type FindAllProductUsecase struct{
 	repo repository.ProductRepository
 }
-func NewFindAllPProductUsecase(repo *dao.PostgreProductDao) *FindAllProductUsecase{
+func NewFindAllProductUsecase(repo *dao.PostgreProductDao) *FindAllProductUsecase{
 	return &FindAllProductUsecase{
 		repo: repo,
 	}
